@@ -89,12 +89,67 @@
 }
 
 /* OPEN STATE */
+    
 .envelope-wrapper.open .flap {
     transform: rotateX(180deg);
 }
 
 .envelope-wrapper.open .letter {
     transform: translateX(-50%) translateY(-40px);
+}
+    .envelope-wrapper {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.05);
+}
+
+/* Envelope base */
+.env-body {
+    width: 340px;
+    height: 220px;
+    background: #f5d6cc; /* soft beige */
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Flap (top triangle) */
+.env-flap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #f2cfc4;
+    clip-path: polygon(0 0, 50% 60%, 100% 0);
+    top: 0;
+    left: 0;
+    transform-origin: top;
+    transition: transform 0.6s ease;
+}
+
+/* Heart (center) */
+.env-heart {
+    position: absolute;
+    top: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    animation: heartBeat 1.5s infinite;
+}
+
+/* subtle heartbeat */
+@keyframes heartBeat {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.15); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* OPEN animation */
+.envelope-wrapper.open .env-flap {
+    transform: rotateX(160deg);
 }
     .envelope:before {
         content: "";
@@ -355,15 +410,11 @@
 <!-- Envelope Popup -->
 <div class="overlay" id="overlay">
     <div class="envelope-wrapper" onclick="openEnvelope()">
-        
-        <div class="envelope">
-            <div class="flap"></div>
-            <div class="letter">
-                <span>💌</span>
-            </div>
-        </div>
 
-        <div class="heart-icon">❤️</div>
+        <div class="env-body">
+            <div class="env-flap"></div>
+            <div class="env-heart">❤️</div>
+        </div>
 
     </div>
 </div>
@@ -451,7 +502,7 @@ function openEnvelope() {
     setTimeout(() => {
         document.getElementById("overlay").style.display = "none";
         document.getElementById("message").style.display = "block";
-    }, 800); // wait for animation
+    }, 700);
 }
 
 function showContent() {
