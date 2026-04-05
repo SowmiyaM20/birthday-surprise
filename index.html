@@ -62,6 +62,38 @@
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
     }
+    .hearts-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.heart-float {
+    position: absolute;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp linear forwards;
+    opacity: 0.7;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+    }
+}
 /* Heart */
     .heart {
         position: absolute;
@@ -189,21 +221,71 @@
         line-height: 1.7;
         color: #444;
     }
+    .fade-text {
+    font-size: 19px;
+    line-height: 1.8;
+    color: #444;
+    text-align: center;
+    animation: fadeIn 3s ease-in;
+    background: linear-gradient(90deg, #ff758f, #ff7eb3, #ff758f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
     /* Final Love Text */
     .love {
-        text-align: center;
-        font-size: 50px;
-        color: #ff1e56;
-        font-weight: bold;
-        animation: glow 2s infinite alternate;
-        margin: 40px 0;
-    }
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    margin: 60px 0;
+    position: relative;
+    color: #ff1e56;
+    animation: glow 1.5s infinite alternate;
+}
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #ff4d6d; }
-        to { text-shadow: 0 0 25px #ff1e56; }
+/* Glow effect */
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff758f;
     }
+    to {
+        text-shadow: 0 0 25px #ff1e56, 0 0 40px #ff4d6d;
+    }
+}
+
+/* Glitter particles */
+.sparkles::before,
+.sparkles::after {
+    content: "✨ ✨ 💖 ✨ 💕 ✨";
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -20px;
+    text-align: center;
+    animation: sparkleMove 2s linear infinite;
+}
+
+.sparkles::after {
+    top: 30px;
+    animation-delay: 1s;
+}
+
+@keyframes sparkleMove {
+    0% { opacity: 0; transform: translateY(-10px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(10px); }
+}
 
 </style>
 </head>
@@ -216,7 +298,7 @@
         <div class="heart">❤️</div>
     </div>
 </div>
-
+<div class="hearts-container"></div>
 <!-- Message -->
 <div class="message" id="message">
    <h1>Happy Birthday, my dear Hubby ❤️</h1>
@@ -272,7 +354,7 @@
 
 <!-- Content -->
 <div class="content">
-    <p>
+    <p class="fade-text">
     Happy Birthday to the most important person in our lives. You are not just my husband, but the strength behind our family, the calm in our chaos, and the reason we smile every single day. Watching you as a father fills my heart with pride and happiness beyond words. The love, care, and patience you show make our home a place full of warmth and joy.
 
     You mean everything to both me and our son. We look up to you, admire you, and feel incredibly lucky to have you. Life feels easier, safer, and more meaningful because of you. No matter what challenges come our way, I know we can face them together because you are by our side.
@@ -284,6 +366,7 @@
 <!-- Final Love Text -->
 <div class="love">
     I Love You LK ❤️
+    <div class="sparkles"></div>
 </div>
 </div>
 <script>
@@ -319,6 +402,23 @@ setInterval(() => {
 }, 2500);
 
 updateCarousel();
+    function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart-float");
+    heart.innerHTML = "💖";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (12 + Math.random() * 20) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+    document.querySelector(".hearts-container").appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 8000);
+}
+
+setInterval(createHeart, 500);
 </script>
 
 </body>
