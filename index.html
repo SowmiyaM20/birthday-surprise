@@ -96,33 +96,52 @@
     }
     /* Slider */
    .slider {
-    text-align: center;
+    width: 100%;
+    overflow: hidden;
     margin-top: 40px;
 }
     .carousel {
     position: relative;
-    height: 300px;
+    height: 320px;
 }
 
 .carousel img {
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translateX(-50%) scale(0.8);
-    width: 60%;
+    transform: translateX(-50%);
+    width: 220px;
     height: 300px;
     object-fit: cover;
-    opacity: 0.5;
-    transition: all 0.6s ease;
     border-radius: 12px;
+    transition: all 0.6s ease;
+    opacity: 0.5;
 }
 
+/* Positions */
 .carousel img.active {
-    transform: translateX(-50%) scale(1);
+    transform: translateX(-50%) scale(1.1);
+    z-index: 3;
     opacity: 1;
+}
+    .carousel img.left {
+    transform: translateX(-150%) scale(0.9);
     z-index: 2;
 }
 
+.carousel img.right {
+    transform: translateX(50%) scale(0.9);
+    z-index: 2;
+}
+    .carousel img.far-left {
+    transform: translateX(-250%) scale(0.8);
+    opacity: 0.3;
+}
+
+.carousel img.far-right {
+    transform: translateX(150%) scale(0.8);
+    opacity: 0.3;
+}
 .dots {
     margin-top: 10px;
 }
@@ -282,31 +301,28 @@ function showContent() {
     document.getElementById("main").style.display = "block";
 }
 let current = 0;
-const slides = document.querySelectorAll(".carousel img");
-const dots = document.querySelectorAll(".dots span");
+const images = document.querySelectorAll("#carousel img");
 
-function showSlide(index) {
-    slides.forEach((img, i) => {
-        img.classList.remove("active");
-        dots[i].classList.remove("active");
+function updateCarousel() {
+    images.forEach(img => {
+        img.className = "";
     });
 
-    slides[index].classList.add("active");
-    dots[index].classList.add("active");
-}
+    const total = images.length;
 
-function goToSlide(index) {
-    current = index;
-    showSlide(current);
+    images[current].classList.add("active");
+    images[(current - 1 + total) % total].classList.add("left");
+    images[(current + 1) % total].classList.add("right");
+    images[(current - 2 + total) % total].classList.add("far-left");
+    images[(current + 2) % total].classList.add("far-right");
 }
 
 setInterval(() => {
-    current = (current + 1) % slides.length;
-    showSlide(current);
-}, 3000);
+    current = (current + 1) % images.length;
+    updateCarousel();
+}, 2500);
 
-// initial
-showSlide(current);
+updateCarousel();
 </script>
 
 </body>
