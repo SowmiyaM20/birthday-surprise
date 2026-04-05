@@ -16,29 +16,32 @@
         position: fixed;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.7);
+        background: linear-gradient(#ffccd5, #fff0f5);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 10;
     }
 
-    .envelope {
-        width: 250px;
+   .envelope {
+        width: 280px;
         height: 180px;
-        background: #ff4d6d;
+        background: #ff8fab;
         position: relative;
+        border-radius: 12px;
         cursor: pointer;
-        border-radius: 10px;
-        animation: pulse 1.5s infinite;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
     .envelope:before {
-        content: "❤️❤️❤️";
+        content: "";
         position: absolute;
-        top: -30px;
-        left: 40px;
-        font-size: 20px;
+        width: 0;
+        height: 0;
+        border-left: 140px solid transparent;
+        border-right: 140px solid transparent;
+        border-bottom: 90px solid #ff758f;
+        top: 0;
     }
 
     @keyframes pulse {
@@ -46,26 +49,50 @@
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
     }
-
+/* Heart */
+    .heart {
+        position: absolute;
+        top: 65px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 40px;
+    }
     .message {
         display: none;
         text-align: center;
-        font-size: 28px;
-        margin-top: 50px;
-        color: #d6336c;
+        margin-top: 100px;
     }
-
+    .message h1 {
+        color: #d6336c;
+        font-size: 32px;
+    }
+    /* Button */
+    .btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background: #ff4d6d;
+        color: white;
+        font-size: 16px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+/* Main content hidden initially */
+    .main {
+        display: none;
+    }
     /* Slider */
     .slider {
         width: 100%;
         height: 300px;
         overflow: hidden;
-        margin-top: 40px;
+        margin-top: 20px;
     }
 
     .slides {
         display: flex;
-        animation: slide 12s infinite;
+        width: 300%;
+        animation: slide 18s infinite; /* slower */
     }
 
     .slides img {
@@ -76,8 +103,11 @@
 
     @keyframes slide {
         0% { transform: translateX(0); }
+        30% { transform: translateX(0); }
         33% { transform: translateX(-100%); }
+        63% { transform: translateX(-100%); }
         66% { transform: translateX(-200%); }
+        96% { transform: translateX(-200%); }
         100% { transform: translateX(0); }
     }
 
@@ -85,7 +115,7 @@
     .content {
         padding: 30px;
         font-size: 18px;
-        line-height: 1.6;
+        line-height: 1.7;
         color: #444;
     }
 
@@ -96,7 +126,7 @@
         color: #ff1e56;
         font-weight: bold;
         animation: glow 2s infinite alternate;
-        margin: 50px 0;
+        margin: 40px 0;
     }
 
     @keyframes glow {
@@ -111,14 +141,19 @@
 
 <!-- Envelope Popup -->
 <div class="overlay" id="overlay">
-    <div class="envelope" onclick="openLetter()"></div>
+    <div class="envelope" onclick="openEnvelope()">
+        <div class="heart">❤️</div>
+    </div>
 </div>
 
 <!-- Message -->
 <div class="message" id="message">
-    Happy Birthday, my dear Hubby ❤️
+   <h1>Happy Birthday, my dear Hubby ❤️</h1>
+    <button class="btn" onclick="showContent()">Open Your Surprise 💌</button>
 </div>
-
+    
+<!-- Main Content -->
+<div class="main" id="main">
 <!-- Slider -->
 <div class="slider">
     <div class="slides">
@@ -178,11 +213,16 @@
 <div class="love">
     I Love You LK ❤️
 </div>
-
+</div>
 <script>
-function openLetter() {
+function openEnvelope() {
     document.getElementById("overlay").style.display = "none";
     document.getElementById("message").style.display = "block";
+}
+
+function showContent() {
+    document.getElementById("message").style.display = "none";
+    document.getElementById("main").style.display = "block";
 }
 </script>
 
